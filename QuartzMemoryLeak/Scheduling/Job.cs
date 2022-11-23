@@ -16,6 +16,6 @@ public class Job : IJob
     public async Task Execute(IJobExecutionContext context)
     {
         _logger.LogTrace("{method}({context})", nameof(Execute), context);
-        await _memoryLeakingService.Test();
+        await _memoryLeakingService.ReadData();
     }
 }

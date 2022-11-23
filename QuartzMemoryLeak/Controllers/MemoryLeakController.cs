@@ -19,7 +19,10 @@ namespace QuartzMemoryLeak.Controllers
         }
 
         [HttpGet]
-        public Task Test() => _memoryLeakingService.Test();
+        public Task WriteData() => _memoryLeakingService.WriteData();
+
+        [HttpGet]
+        public Task ReadData() => _memoryLeakingService.ReadData();
 
         [HttpGet]
         public Task StartJob() => _jobManager.StartJobs();

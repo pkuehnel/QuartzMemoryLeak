@@ -2,5 +2,6 @@
 
 public interface IMemoryLeakingService
 {
-    Task Test();
+    Task WriteData();
+    Task ReadData();
 }
