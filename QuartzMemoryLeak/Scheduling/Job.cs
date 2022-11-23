@@ -6,16 +6,18 @@ namespace QuartzMemoryLeak.Scheduling;
 public class Job : IJob
 {
     private readonly ILogger<Job> _logger;
-    private readonly IMemoryLeakingService _memoryLeakingService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public Job(ILogger<Job> logger, IMemoryLeakingService memoryLeakingService)
+    public Job(ILogger<Job> logger, IServiceScopeFactory serviceScopeFactory)
     {
         _logger = logger;
-        _memoryLeakingService = memoryLeakingService;
+        _serviceScopeFactory = serviceScopeFactory;
     }
     public async Task Execute(IJobExecutionContext context)
     {
         _logger.LogTrace("{method}({context})", nameof(Execute), context);
-        await _memoryLeakingService.ReadData();
+        using var scope = _serviceScopeFactory.CreateScope();
+        var memoryLeakingService = scope.ServiceProvider.GetRequiredService<IMemoryLeakingService>();
+        await memoryLeakingService.ReadData();
     }
 }
